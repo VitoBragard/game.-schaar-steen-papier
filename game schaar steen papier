@@ -1,0 +1,78 @@
+from tkinter import *
+import random
+
+root = Tk()
+root.geometry('800x600')
+root.resizable(0,0)
+root.title('Schaar steen papier')
+root.config(bg ='khaki')
+Label(root, text = "Let's play schaar, steen, papier" , font='arial 20 bold', bg = 'khaki').pack()
+keuze = None
+Wins = 0
+Games = 0
+
+def Steen():
+    global keuze
+    keuze = 'steen'
+    play()
+
+def Schaar():
+    global keuze
+    keuze = 'schaar'
+    play()
+
+def Papier():
+    global keuze
+    keuze = 'papier'
+    play()
+
+
+Label(root, text = 'Kies uit: schaar, steen of papier' , font='arial 15 bold', bg = 'khaki').place(x = 250,y=50)
+img_steen = PhotoImage(file="steen.PNG")
+img_schaar = PhotoImage(file="schaar.PNG")
+img_papier = PhotoImage(file="papier.PNG")
+Button(root, font = 'arial 13 bold', image = img_steen, borderwidth=0, height = 200, width = 150, padx =5, command = Steen).place(x=70, y=120)
+Button(root, font = 'arial 13 bold', image = img_schaar, borderwidth=0, height = 200, width = 150, padx =5, command = Schaar).place(x=325, y=120)
+Button(root, font = 'arial 13 bold', image = img_papier, borderwidth=0, height = 200, width = 150, padx =5, command = Papier).place(x=600, y=120)
+
+Result = StringVar()
+
+
+def play():
+    keuze_computer = random.randint(1,3)
+    if keuze_computer == 1:
+        keuze_computer = 'steen'
+    elif keuze_computer == 2:
+        keuze_computer = 'papier'
+    else:
+        keuze_computer = 'schaar'
+
+    global Games
+    Games += 1
+    global Wins
+    global keuze
+    keuze_speler = keuze
+    if keuze_speler == keuze_computer:
+        Result.set('Gelijkspel, probeer het nog eens!')
+        Games -= 1
+    elif keuze_speler == 'steen' and keuze_computer == 'papier':
+        Result.set('Verloren, de computer heeft papier gekozen')
+    elif keuze_speler == 'steen' and keuze_computer == 'schaar':
+        Result.set('Gewonnen, de computer heeft schaar gekozen')
+        Wins += 1
+    elif keuze_speler == 'papier' and keuze_computer == 'schaar':
+        Result.set('Verloren, de computer heeft schaar gekozen')
+    elif keuze_speler == 'papier' and keuze_computer == 'steen':
+        Result.set('Gewonnen, de computer heeft steen gekozen')
+        Wins += 1
+    elif keuze_speler == 'schaar' and keuze_computer == 'steen':
+        Result.set('Verloren, de computer heeft steen gekozen')
+    elif keuze_speler == 'schaar' and keuze_computer == 'papier':
+        Result.set('Gewonnen, de computer heeft papier gekozen')
+        Wins += 1
+
+Entry(root, font = 'arial 10 bold', textvariable = Result, bg ='antiquewhite2',width = 50,).place(x=250, y = 450)
+
+root.mainloop()
+
+mainloop()
